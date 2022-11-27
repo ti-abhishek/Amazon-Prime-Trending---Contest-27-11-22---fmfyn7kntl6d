@@ -1,10 +1,49 @@
 import React, {Component, useState} from "react";
 import '../styles/App.css';
 
-const App = () => {
+const App = ({slides}) => {
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [prevFlag, setPrevFlag] = useState(true);
+  const [nextFlag, setNextFlag] = useState(false);
+  const [restartFlag, setRestartFlag] = useState(true);
+
+  useEffect(() => {
+    // if current slide is the first one
+    if(slideIndex === 0) {
+      setPrevFlag(true);
+      setRestartFlag(true);
+    } else {
+      setPrevFlag(false);
+      setRestartFlag(false);
+    }
+
+    // if current slide is the last one
+    if(slideIndex === slides.length - 1) {
+      setNextFlag(true);
+    } else {
+      setNextFlag(false);
+    }
+
+  }, [slideIndex])
+
+  const handlePrevClick = () => {
+      
+      setSlideIndex((prevState) => prevState - 1);
+  }
+
+  const handleNextClick = () => {
+      setSlideIndex((prevState) => prevState + 1);
+  }
+
+  const handleRestartClick = () => {
+    setSlideIndex(0);
+  }
+
+
+
   return (
     <>
-    <h1 id="heading">Amazon Prime: Trending</h1>
+      <h1 id="heading">Amazon Prime: Trending</h1>
       <div>
         <div>
           <h1 data-testid="title">{slides[slideIndex].title}</h1>
